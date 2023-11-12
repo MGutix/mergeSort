@@ -1,36 +1,26 @@
 function mergeSort(arr){
-    let result = [];
-
     if (arr.length <= 1){
-        return
+        return arr
     }
-    else{
-        const left = []
-        const right = []
 
-        for (let i = 0; i < arr.length; i++) {
-            if (i <(arr.length/2)){
-                left.push(arr[i])
-                if(left.length>1){
-                    mergeSort(left)
-                }
-            } else{
-                right.push(arr[i])
-                if(right.length>1){
-                    mergeSort(right)
-                }
-            }
+    const mid = Math.floor(arr.length/2)
+    const left = arr.slice(0,mid)
+    const right = arr.slice(mid)
+    return merge(mergeSort(left),mergeSort(right))
+}
+
+function merge(leftArr, rightArr){
+    const result = [];
+    while(leftArr.length && rightArr.length){
+        if(leftArr[0]<rightArr[0]){
+            result.push(leftArr.shift())
+        } else {
+            result.push(rightArr.shift())
         }
-
-        console.log(`The left part is ${left}`)
-        console.log(`The right part is ${right}`)
-
-        result = [left, right]
-        result.sort((a, b) => a - b)
-        console.table(result)
-        return result
     }
+
+    return [...result, ...leftArr, ...rightArr]
 }
 
 
-mergeSort([3,1])
+console.log(mergeSort([10,6,8,3,4,2,1]))
